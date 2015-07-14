@@ -55,8 +55,13 @@ if sys.version_info < (2, 4):
 import platform
 system = platform.system().lower()
 if not system.startswith('linux') and not system.startswith('freebsd'):
-    sys.stderr.write("inotify is not available on %s\n" % system)
-    sys.exit(1)
+    # sys.stderr.write("inotify is not available on %s\n" % system)
+    # sys.exit(1)
+    # Soften the blow of this not working.
+    # If you have something like Django >=1.7 in the same environment
+    # as you have pyinotify, the django will try to import this module
+    # and use it if it doesn't raise an ImportError.
+    raise ImportError("inotify is not available on %s\n" % system)
 
 
 # Import directives
